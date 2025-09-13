@@ -1,36 +1,36 @@
-import { useState, useEffect } from 'react'; /* importing two react hooks state giving memory,
-effect enabling action in response to change after a render */
+import { useState, useEffect } from 'react'; // gives memory + allows [side]effects after renders like fetching from api
 import { getWeather } from '../api/weather'; // importing that earlier getWeather we defined earlier
 
 // shows current temp + description for a city
 export default function WeatherCard({ city }) {
-  /* 1. Local state:
-        null   → loading
-        object → success
-        string → error message                                   */
+  /* loading flag structure(data === null below), null will prompt it's loading
+        if an object is returned show success w/ info
+        if an empty string show no error
+        if error is a non empty string, will show error message                   */
   const [data,  setData]  = useState(null);
   const [error, setError] = useState('');
 
-  /* 2. Side-effect: whenever `city` prop changes, trigger fetch. */
+  // runs after first render and anytime city changes
   useEffect(() => {
-    // Guard against empty city on first render.
-    if (!city) return;
+    
+    if (!city) return; // skip the fetching if there is no city
 
-    setData(null);              // forces loader state
-    getWeather(city)
-      .then(setData)            // on success
-      .catch(e => setError(e.message)); // on failure
-  }, [city]);                   // ← dependency array
+    setData(null); // forces the ui into loading while new request + stops old city data from showing
+    getWeather(city) // api call (weather in particular)
+      .then(setData)            // on success, response object is stored in data
+      .catch(e => setError(e.message)); // on failure, store a readable error
+  }, [city]);                   //  dependency array
 
-  // 3.   Render paths
-  if (error)        return <p className="text-red-500">{error}</p>;
-  if (data === null) return <p>Loading weather…</p>;
-
-  return (
-    <section className="p-6 bg-slate-800 rounded-xl text-center">
-      <h2 className="text-xl font-semibold mb-1">{data.name}</h2>
-      <p  className="text-5xl">{Math.round(data.main.temp)}°C</p>
-      <p  className="capitalize">{data.weather[0].description}</p>
+  // this is primarily rendering logic
+  if (error)        return <p className="text-red-500">{error}</p>; // if error, show in red and stops render
+  if (data === null) return <p>Loading weather…</p>; // otherwise if data is null show loading weather
+ /* in react else statement is implicit, big thing to realize which can make code more concise
+ and readable in good application */
+  return ( // anyways if we have data: 
+    <section className="p-6 bg-slate-800 rounded-xl text-center"> {/* */}
+      <h2 className="text-xl font-semibold mb-1">{data.name}</h2> {/* shows city name from api response */}
+      <p  className="text-5xl">{Math.round(data.main.temp)}°F</p> {/* just rounding the temp to whole # */}
+      <p  className="capitalize">{data.weather[0].description}</p> {/* capitalize is just aesthetic tbh */}
     </section>
   );
 }
