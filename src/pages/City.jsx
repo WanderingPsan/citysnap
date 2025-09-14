@@ -3,6 +3,7 @@ import CardGrid from "../components/CardGrid"; // gets the cardgrid stylistic ch
 import WeatherCard from "../components/WeatherCard"; // child that fetches + displays weather
 import PhotoGallery from "../components/PhotoGallery"; // gets the images correlating to the city
 import Headlines from "../components/Headlines"; // gets the reddit headlines
+import EventList from "../components/EventList"; // gets the ticket master event list
 
 
 export default function City() {
@@ -24,11 +25,17 @@ export default function City() {
       <PhotoGallery city={name} />
       </div>
 
-      {/* Headlines list */}
+      {/* headlines list */}
       <div className="p-4 rounded-xl bg-slate-800/40">
         <h2 className="text-lg font-semibold mb-2">Top Reddit Headlines</h2>
         <Headlines city={name} />
       </div>
+
+      {/* event list */}
+      <div className="p-4 rounded-xl bg-slate-800/40">
+          <h2 className="text-lg font-semibold mb-2">Upcoming Events</h2>
+          <EventList city={name} />
+        </div>
       </CardGrid>
     </main>
   );
