@@ -1,4 +1,3 @@
-
 export default function About() { // defines about page component
   return ( // tailwind css stuff
     <main className="max-w-xl mx-auto mt-10 p-4">

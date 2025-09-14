@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'; // gives memory + allows [side]effects after renders like fetching from api
-import { getWeather } from '../api/weather'; // importing that earlier getWeather we defined earlier
+import { getWeather } from '../api/weather'; // importing that earlier getWeather we defined earlier, promise
 
 // shows current temp + description for a city
 export default function WeatherCard({ city }) {
