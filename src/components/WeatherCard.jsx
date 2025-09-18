@@ -27,7 +27,7 @@ export default function WeatherCard({ city }) {
  /* in react else statement is implicit, big thing to realize which can make code more concise
  and readable in good application */
   return ( // anyways if we have data: 
-    <section className="p-6 bg-slate-800 rounded-xl text-center"> {/* */}
+    <section className="p-6 rounded-xl text-center color-card"> {/* using those tokens from before that were defined earlier */}
       <h2 className="text-xl font-semibold mb-1">{data.name}</h2> {/* shows city name from api response */}
       <p  className="text-5xl">{Math.round(data.main.temp)}°F</p> {/* just rounding the temp to whole # */}
       <p  className="capitalize">{data.weather[0].description}</p> {/* capitalize is just aesthetic tbh */}
