@@ -1,68 +1,52 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss"; /* imports the actual tailwind */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* tells Tailwind that dark mode means any element that has dark class or within an element inside a dark class 
+was import in actually getting this toggle to work in v4 as opposed to v3.*/
+@custom-variant dark (&:where(.dark, .dark *));
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* creates color variables to be reused everywhere */
+@theme {
+  /* app background and text */
+  --color-surface:        #f8fafc;   /* light slate-50-ish */
+  --color-on-surface:     #0f172a;   /* slate-900 */
+
+  /* card surfaces + borders + subtle text */
+  --color-card:           #0f172a0d; /* slate-900 @ ~5–10% */
+  --color-border:         #cbd5e1;   /* slate-300 */
+  --color-muted:          #64748b;   /* slate-500 */
+
+  /* button colors */
+  --color-accent:         #2563eb;   /* blue-600 */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* dark mode overrides that are in the theme layer so Tailwind merges correctly */
+@layer theme {
+  .dark {
+    --color-surface:    #0b1220; /* near slate-950 */
+    --color-on-surface: #e2e8f0; /* slate-200 */
+    --color-card:       #1f2937; /* slate-800 */
+    --color-border:     #334155; /* slate-700 */
+    --color-muted:      #94a3b8; /* slate-400 */
+    --color-accent:     #60a5fa; /* blue-400 */
+  }
 }
 
+/* utilizing tokens */
+:root { color-scheme: light dark; }
+html, body, #root {  /* makes sure the app takes up the full browser window height */
+  height: 100%;
+}
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  /* sets using our earlier defined tokens to set body bg to surface, and body text to on-surface when dark mode is on */
+  @apply bg-surface text-on-surface;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+/* helpers that simplify names to use in jsx that auto changes depending on the mode */
+.bg-surface        { background-color: var(--color-surface); }
+.bg-card           { background-color: var(--color-card); }
+.text-on-surface   { color: var(--color-on-surface); }
+.text-muted        { color: var(--color-muted); }
+.border-token      { border-color: var(--color-border); }
+.bg-accent         { background-color: var(--color-accent); }
+.text-accent       { color: var(--color-accent); }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
